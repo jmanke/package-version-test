@@ -22,8 +22,8 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --local user.email "
-          git config --local user.name "Automated Package Version Update"
+          git config --local user.email "jmanke@gmail.com"
+          git config --local user.name "jmanke"
           git add yarn.lock
           git commit -m "Automated Package Version Update"
           git push origin automated-package-version
