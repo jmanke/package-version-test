@@ -12,12 +12,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      # - name: Console log
-      #   run: ls
-      # - name: Create branch
-      #   run: git branch automated-package-update
-      # - name: Push branch
-      #   run: git push origin automated-package-update
+      - name: Create branch
+        run: git branch automated-package-update
+      - name: Push branch
+        run: git push origin
 
       - name: Update yarn.lock
         run: node ./scripts/update-package-versions.js
