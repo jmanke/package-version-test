@@ -24,7 +24,7 @@ jobs:
         run: node ./scripts/update-package-versions.js
 
       - name: Run yarn install
-        run: yarn install --immutable --check-cache
+        run: YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install
 
       - name: Commit and push changes
         run: |
