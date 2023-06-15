@@ -19,3 +19,11 @@ jobs:
 
       - name: Update yarn.lock
         run: node ./scripts/update-package-versions.js
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "
+          git config --local user.name "Automated Package Version Update"
+          git add yarn.lock
+          git commit -m "Automated Package Version Update"
+          git push origin automated-package-version
