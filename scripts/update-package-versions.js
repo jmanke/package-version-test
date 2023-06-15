@@ -13,7 +13,7 @@ function deletePackageEntries(patterns) {
 }
 
 const patterns = [
-  /"@esri\/calcite-components@npm:.+?":.+?linkType: (soft|hard)"/s,
+  /"@esri\/calcite-components@npm:.+?":.+?linkType: (soft|hard)/s,
 ];
 
 deletePackageEntries(patterns);
