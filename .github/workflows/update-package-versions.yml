@@ -17,6 +17,9 @@ jobs:
           git checkout -b automated-package-version
           git push origin automated-package-version
 
+      - name: Install Yarn 3.x
+        run: yarn set version berry
+
       - name: Update yarn.lock
         run: node ./scripts/update-package-versions.js
 
