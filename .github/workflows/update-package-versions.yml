@@ -16,15 +16,12 @@ jobs:
         run: |
           git checkout -b automated-package-version
           git push origin automated-package-version
-      
-      - name: Run pre yarn install
-        run: yarn install
 
       - name: Update yarn.lock
         run: node ./scripts/update-package-versions.js
 
       - name: Run yarn install
-        run: yarn install
+        run: yarn install --ignore-optional
 
       - name: Commit and push changes
         run: |
