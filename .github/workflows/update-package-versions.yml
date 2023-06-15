@@ -1,0 +1,19 @@
+name: Update Package Versions Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-package-versions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create branch
+        run: git branch automated-package-update
+      - name: Push branch
+        run: git push origin automated-package-update
+
+      - name: Update yarn.lock
+        run: node ./scripts/update-package-versions.js
