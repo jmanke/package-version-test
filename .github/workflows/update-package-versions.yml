@@ -38,7 +38,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const result = github.rest.pulls.create({
+            const result = await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: 'Automated Package Version Update',
