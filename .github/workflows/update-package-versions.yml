@@ -13,8 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Create and push branch
-        env:
-          GITHUB_TOKEN: ${{ secrets.WRITE_ACCESS_TOKEN }}
         run: |
           git checkout -b automated-package-version
           git push origin automated-package-version
