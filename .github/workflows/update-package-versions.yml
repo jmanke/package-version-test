@@ -21,7 +21,7 @@ jobs:
         run: node ./scripts/update-package-versions.js
 
       - name: Run yarn install
-        run: yarn install --ignore-optional
+        run: yarn install --immutable
 
       - name: Commit and push changes
         run: |
