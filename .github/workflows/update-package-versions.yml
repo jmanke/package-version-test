@@ -20,6 +20,9 @@ jobs:
       - name: Update yarn.lock
         run: node ./scripts/update-package-versions.js
 
+      - name: Yarn version
+        run: yarn -v
+
       - name: Run yarn install
         run: yarn install
 
