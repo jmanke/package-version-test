@@ -20,6 +20,9 @@ jobs:
       - name: Update yarn.lock
         run: node ./scripts/update-package-versions.js
 
+      - name: Run yarn install
+        run: yarn install
+
       - name: Commit and push changes
         run: |
           git config --local user.email "jmanke@gmail.com"
@@ -32,11 +35,17 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            github.rest.pulls.create({
+            const result = github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: 'Automated Package Version Update',
               head: 'automated-package-version',
               base: 'main',
               body: 'Automated Package Version Update',
+            })
+            github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: result.data.number,
+              assignees: ['jmanke'],
             })
