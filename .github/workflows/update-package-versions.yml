@@ -27,3 +27,16 @@ jobs:
           git add yarn.lock
           git commit -m "Automated Package Version Update"
           git push origin automated-package-version
+
+      - name: Create PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Automated Package Version Update',
+              head: 'automated-package-version',
+              base: 'main',
+              body: 'Automated Package Version Update',
+            })
