@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Console log
+        run: ls
       - name: Create branch
         run: git branch automated-package-update
       - name: Push branch
