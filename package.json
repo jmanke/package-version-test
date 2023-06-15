@@ -1,0 +1,13 @@
+{
+  "name": "package-version-test",
+  "packageManager": "yarn@3.6.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "update-package-versions": "node ./scripts/update-package-versions.js"
+  },
+  "resolutions": {
+    "@esri/calcite-components": "1.4.2"
+  }
+}

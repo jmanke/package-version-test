@@ -1,0 +1,7 @@
+{
+  "name": "test",
+  "packageManager": "yarn@3.6.0",
+  "dependencies": {
+    "@esri/calcite-components": "^1.4.2"
+  }
+}
