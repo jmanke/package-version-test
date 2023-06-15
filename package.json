@@ -5,6 +5,6 @@
     "packages/*"
   ],
   "resolutions": {
-    "@esri/calcite-components": "1.4.1"
+    "@esri/calcite-components": "1.4.2"
   }
 }
