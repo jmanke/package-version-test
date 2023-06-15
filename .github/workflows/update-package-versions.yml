@@ -1,8 +1,5 @@
 name: Update Package Versions Workflow
 
-env:
-  GITHUB_TOKEN: ${{ secrets.WRITE_ACCESS_TOKEN }}
-
 on:
   push:
     branches:
