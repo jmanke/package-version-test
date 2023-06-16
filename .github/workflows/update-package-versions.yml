@@ -12,10 +12,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Create and push branch
-        run: |
-          git checkout -b automated-package-version
-          git push origin automated-package-version
 
       - name: Install Yarn 3.x
         run: yarn set version berry
@@ -26,8 +22,20 @@ jobs:
       - name: Run yarn install
         run: YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install
 
+      - name: Check for changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "There are changes."
+            echo "::set-output name=changes::true"
+          else
+            echo "No changes found. Stopping the job gracefully."
+            echo "::set-output name=changes::false"
+            exit 0
+          fi
+
       - name: Commit and push changes
         run: |
+          git checkout -b automated-package-version
           git config --local user.email "jmanke@gmail.com"
           git config --local user.name "jmanke"
           git add yarn.lock
