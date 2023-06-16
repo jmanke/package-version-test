@@ -26,15 +26,15 @@ jobs:
         run: |
           if [[ -n $(git status --porcelain) ]]; then
             echo "There are changes."
-            echo "::set-output name=changes::true"
+            echo "CHANGES=true" >> $GITHUB_ENV
           else
             echo "No changes found. Stopping the job gracefully."
-            echo "::set-output name=changes::false"
+            echo "CHANGES=false" >> $GITHUB_ENV
             exit 0
           fi
 
       - name: Commit and push changes
-        if: steps.check_changes.outputs.changes == 'true'
+        if: env.CHANGES == 'true'
         run: |
           git checkout -b automated-package-version
           git config --local user.email "jmanke@gmail.com"
@@ -44,7 +44,7 @@ jobs:
           git push origin automated-package-version
 
       - name: Create PR
-        if: steps.check_changes.outputs.changes == 'true'
+        if: env.CHANGES == 'true'
         uses: actions/github-script@v6
         with:
           script: |
