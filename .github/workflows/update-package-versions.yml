@@ -31,7 +31,6 @@ jobs:
             echo "No changes found. Stopping the job gracefully."
             echo "CHANGES=false" >> $GITHUB_ENV
             exit 0
-          fi
 
       - name: Commit and push changes
         if: env.CHANGES == 'true'
