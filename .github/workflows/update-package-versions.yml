@@ -34,6 +34,7 @@ jobs:
           fi
 
       - name: Commit and push changes
+        if: steps.check_changes.outputs.changes == 'true'
         run: |
           git checkout -b automated-package-version
           git config --local user.email "jmanke@gmail.com"
@@ -43,6 +44,7 @@ jobs:
           git push origin automated-package-version
 
       - name: Create PR
+        if: steps.check_changes.outputs.changes == 'true'
         uses: actions/github-script@v6
         with:
           script: |
