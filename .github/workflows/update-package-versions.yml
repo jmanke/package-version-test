@@ -67,11 +67,11 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: result.data.number,
-                commit_title: `Automatic merge of PR #${number}`
+                commit_title: `Automatic merge of PR #${result.data.number}`
               });
 
               if (mergeResult.status == 200) {
-                console.log(`Merged PR #${number}`);
+                console.log(`Merged PR #${result.data.number}`);
               } else {
-                console.log(`Failed to merge PR #${number}`);
+                console.log(`Failed to merge PR #${result.data.number}`);
               }
