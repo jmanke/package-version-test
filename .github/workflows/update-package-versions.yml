@@ -1,94 +1,94 @@
-# name: Update Package Versions Workflow
+name: Update Package Versions Workflow
 
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  push:
+    branches:
+      - main
 
-# env:
-#   CHANGES: ""
-#   PR_NUMBER: ""
+env:
+  CHANGES: ""
+  PR_NUMBER: ""
 
-# jobs:
-#   update-package-versions:
-#     runs-on: ubuntu-latest
+jobs:
+  update-package-versions:
+    runs-on: ubuntu-latest
 
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-#       - name: Install Yarn 3.x
-#         run: yarn set version berry
+      - name: Install Yarn 3.x
+        run: yarn set version berry
 
-#       - name: Update yarn.lock
-#         run: node ./scripts/update-package-versions.js
+      - name: Update yarn.lock
+        run: node ./scripts/update-package-versions.js
 
-#       - name: Run yarn install
-#         run: YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install
+      - name: Run yarn install
+        run: YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install
 
-#       - name: Check for changes
-#         run: |
-#           if [[ -n $(git status --porcelain) ]]; then
-#             echo "There are changes."
-#             echo "CHANGES=true" >> $GITHUB_ENV
-#           else
-#             echo "No changes found. Stopping the job gracefully."
-#             echo "CHANGES=false" >> $GITHUB_ENV
-#             exit 0
-#           fi
+      - name: Check for changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "There are changes."
+            echo "CHANGES=true" >> $GITHUB_ENV
+          else
+            echo "No changes found. Stopping the job gracefully."
+            echo "CHANGES=false" >> $GITHUB_ENV
+            exit 0
+          fi
 
-#       - name: Commit and push changes
-#         if: env.CHANGES == 'true'
-#         run: |
-#           git checkout -b automated-package-version
-#           git config --local user.email "jmanke@gmail.com"
-#           git config --local user.name "jmanke"
-#           git add yarn.lock
-#           git commit -m "Automated Package Version Update"
-#           git push origin automated-package-version
+      - name: Commit and push changes
+        if: env.CHANGES == 'true'
+        run: |
+          git checkout -b automated-package-version
+          git config --local user.email "jmanke@gmail.com"
+          git config --local user.name "jmanke"
+          git add yarn.lock
+          git commit -m "Automated Package Version Update"
+          git push origin automated-package-version
 
-#       - name: Create and Merge PR
-#         if: env.CHANGES == 'true'
-#         uses: actions/github-script@v6
-#         with:
-#           script: |
-#             const result = await github.rest.pulls.create({
-#               owner: context.repo.owner,
-#               repo: context.repo.repo,
-#               title: 'Automated Package Version Update',
-#               head: 'automated-package-version',
-#               base: 'main',
-#               body: 'Automated Package Version Update',
-#             })
-#             github.rest.issues.addAssignees({
-#               owner: context.repo.owner,
-#               repo: context.repo.repo,
-#               issue_number: result.data.number,
-#               assignees: ['jmanke'],
-#             })
+      - name: Create and Merge PR
+        if: env.CHANGES == 'true'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const result = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Automated Package Version Update',
+              head: 'automated-package-version',
+              base: 'main',
+              body: 'Automated Package Version Update',
+            })
+            github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: result.data.number,
+              assignees: ['jmanke'],
+            })
 
-#             const mergeResult = await github.rest.pulls.merge({
-#                 owner: context.repo.owner,
-#                 repo: context.repo.repo,
-#                 pull_number: result.data.number,
-#                 commit_title: `Automatic merge of PR #${result.data.number}`
-#               });
+            const mergeResult = await github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: result.data.number,
+                commit_title: `Automatic merge of PR #${result.data.number}`
+              });
 
-#             if (mergeResult.status == 200) {
-#               console.log(`Merged PR #${result.data.number}`);
+            if (mergeResult.status == 200) {
+              console.log(`Merged PR #${result.data.number}`);
               
-#               const branchName = "automated-package-version";
-#               const deleteBranchResult = await github.rest.git.deleteRef({
-#                 owner: context.repo.owner,
-#                 repo,
-#                 ref: `heads/${branchName}`
-#               });
+              const branchName = "automated-package-version";
+              const deleteBranchResult = await github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo,
+                ref: `heads/${branchName}`
+              });
 
-#               if (deleteBranchResult.status == 204) {
-#                 console.log(`Deleted branch: ${branchName}`);
-#               } else {
-#                 console.log(`Failed to delete branch: ${branchName}`);
-#               }
-#             } else {
-#               console.log(`Failed to merge PR #${result.data.number}`);
-#             }
+              if (deleteBranchResult.status == 204) {
+                console.log(`Deleted branch: ${branchName}`);
+              } else {
+                console.log(`Failed to delete branch: ${branchName}`);
+              }
+            } else {
+              console.log(`Failed to merge PR #${result.data.number}`);
+            }
