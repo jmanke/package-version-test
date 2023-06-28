@@ -62,3 +62,16 @@ jobs:
               issue_number: result.data.number,
               assignees: ['jmanke'],
             })
+
+            const mergeResult = await github.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: result.data.number,
+                commit_title: `Automatic merge of PR #${number}`
+              });
+
+              if (mergeResult.status == 200) {
+                console.log(`Merged PR #${number}`);
+              } else {
+                console.log(`Failed to merge PR #${number}`);
+              }
