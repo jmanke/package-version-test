@@ -63,7 +63,7 @@ jobs:
               assignees: ['jmanke'],
             })
 
-            const mergeResult = await github.pulls.merge({
+            const mergeResult = await github.rest.pulls.merge({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: result.data.number,
